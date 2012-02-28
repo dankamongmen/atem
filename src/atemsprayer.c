@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+static void
+usage(const char **argv){
+	fprintf(stderr,"usage: %s outdir\n",argv[0]);
+}
+
+int main(int argc,const char **argv){
+	char buf[1024],ptoken[PATH_MAX],curfile[PATH_MAX];
+	FILE *curout = NULL;
+
+	if(argc != 1){
+		usage(argv);
+		return EXIT_FAILURE;
+	}
+	if(mkdir(argv[1],0755)){
+		fprintf(stderr,"Couldn't mkdir(%s) (%s?)\n",argv[1],strerror(errno));
+		return EXIT_FAILURE;
+	}
+	ptoken[0] = '\0';
+	while(fgets(buf,sizeof(buf),stdin)){
+		char *delim = strchr(buf,',');
+
+		if(delim == NULL || delim == buf || delim - buf + 1 > sizeof(ptoken)){
+			fprintf(stderr,"Format error on stdin: %s\n",buf);
+			return EXIT_FAILURE;
+		}
+		if(strncmp(ptoken,buf,delim - buf) == 0 && ptoken[delim - buf] == '\0'){
+			if(fprintf(curout,"%s\n",buf) <= 0){
+				fprintf(stderr,"Error writing to %s: %s\n",curfile,strerror(errno));
+				return EXIT_FAILURE;
+			}
+		}else{
+			if(curout){
+				if(fclose(curout)){
+					fprintf(stderr,"Error closing %s: %s\n",curfile,strerror(errno));
+					return EXIT_FAILURE;
+				}
+			}
+			strncpy(ptoken,buf,delim - buf + 1);
+			ptoken[delim - buf] = '\0';
+			if(snprintf(curfile,sizeof(curfile),"%s/%s.csv",argv[1],ptoken) >= sizeof(curfile) ||
+			  (curout = fopen(curfile,"r")) == NULL){
+				fprintf(stderr,"Error opening %s: %s\n",curfile,strerror(errno));
+				return EXIT_FAILURE;
+			}
+		}
+	}
+	if(ferror(stdin)){
+		fprintf(stderr,"Error reading from stdin (%s?)\n",strerror(errno));
+		return EXIT_FAILURE;
+	}
+	if(curout){
+		if(fclose(curout)){
+			fprintf(stderr,"Error closing %s: %s\n",curfile,strerror(errno));
+			return EXIT_FAILURE;
+		}
+	}
+	return EXIT_SUCCESS;
+}

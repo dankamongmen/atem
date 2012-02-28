@@ -8,12 +8,16 @@ EXTRA_DIST += atem.ggo
 EXTRA_DIST += $(BUILT_SOURCES)
 
 bin_PROGRAMS =
-bin_PROGRAMS += atem
+bin_PROGRAMS += atem atemsprayer
 atem_SOURCES =
 atem_SOURCES += atem.cpp
 atem_SOURCES += metastock.cpp
 atem_SOURCES += ms_file.cpp
 atem_SOURCES += util.cpp
+atemsprayer_SOURCES =
+atemsprayer_SOURCES += atemsprayer.c
+atemsprayer_CPPFLAGS = $(AM_CPPFLAGS)
+atemsprayer_LDFLAGS = $(AM_LDFLAGS)
 noinst_HEADERS =
 noinst_HEADERS += metastock.h ms_file.h util.h
 EXTRA_atem_SOURCES =
