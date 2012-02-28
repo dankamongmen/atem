@@ -21,7 +21,8 @@ int main(int argc,const char **argv){
 		usage(argv);
 		return EXIT_FAILURE;
 	}
-	if(mkdir(argv[1],0755)){
+	// FIXME require an -f argument to continue on EEXIST?
+	if(mkdir(argv[1],0755) && errno != EEXIST){
 		fprintf(stderr,"Couldn't mkdir(%s) (%s?)\n",argv[1],strerror(errno));
 		return EXIT_FAILURE;
 	}
