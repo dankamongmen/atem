@@ -15,7 +15,7 @@ int main(int argc,const char **argv){
 	char buf[1024],ptoken[PATH_MAX],curfile[PATH_MAX];
 	FILE *curout = NULL;
 
-	if(argc != 1){
+	if(argc != 2){
 		usage(argv);
 		return EXIT_FAILURE;
 	}
