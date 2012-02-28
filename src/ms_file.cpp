@@ -1047,7 +1047,7 @@ int FDat::record_to_string( const char *record, char *s ) const
 	PRINT_FIELD( ftoa, D_LOW, low );
 	PRINT_FIELD( ftoa, D_CLO, close );
 	PRINT_FIELD( ftoa_prec_f0, D_VOL, volume );
-	PRINT_FIELD( ftoa_prec_f0, D_OPI, openint );
+	PRINT_FIELD( ftoa, D_OPI, openint );
 	
 	if( s != begin ) {
 		*(--s) = '\0';
@@ -1066,7 +1066,6 @@ int FDat::header_to_string( char *s )
 	char *begin = s;
 	
 	PRINT_FIELD( strcpy_len, D_DAT, "date" );
-	PRINT_FIELD( strcpy_len, D_TIM, "time" );
 	PRINT_FIELD( strcpy_len, D_OPE, "open" );
 	PRINT_FIELD( strcpy_len, D_HIG, "high" );
 	PRINT_FIELD( strcpy_len, D_LOW, "low" );
