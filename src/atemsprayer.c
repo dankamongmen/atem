@@ -46,7 +46,7 @@ int main(int argc,const char **argv){
 			strncpy(ptoken,buf,delim - buf + 1);
 			ptoken[delim - buf] = '\0';
 			if(snprintf(curfile,sizeof(curfile),"%s/%s.csv",argv[1],ptoken) >= sizeof(curfile) ||
-			  (curout = fopen(curfile,"r")) == NULL){
+			  (curout = fopen(curfile,"w")) == NULL){
 				fprintf(stderr,"Error opening %s: %s\n",curfile,strerror(errno));
 				return EXIT_FAILURE;
 			}
