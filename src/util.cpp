@@ -70,14 +70,12 @@ int ftoa_prec_f0(char *s, float f )
 
 #endif
 
-
-
-
 int itodatestr( char *s, unsigned int n )
 {
+	// FIXME throw an exception
 	if( n <= 0 || n >= 100000000 ) {
-		memcpy(s, "0000-00-00", 10);
-		return 10;
+		memcpy(s, "00000000", 8);
+		return 8;
 	}
 	
 #if defined FAST_PRINTING
@@ -93,70 +91,17 @@ int itodatestr( char *s, unsigned int n )
 	s[2] = '0' + (char)(div = (num2*6554)>>16);
 	num2 -= div*10;
 	s[3] = '0' + (char)(num2);
-	s[4] = '-';
 	
-	s[5] = '0' + (char)(div = (num1*8389)>>23);
+	s[4] = '0' + (char)(div = (num1*8389)>>23);
 	num1 -= div*1000;
-	s[6] = '0' + (char)(div = (num1*5243)>>19);
+	s[5] = '0' + (char)(div = (num1*5243)>>19);
 	num1 -= div*100;
-	s[7] = '-';
-	s[8] = '0' + (char)(div = (num1*6554)>>16);
+
+	s[6] = '0' + (char)(div = (num1*6554)>>16);
 	num1 -= div*10;
-	s[9] = '0' + (char)(num1);
+	s[7] = '0' + (char)(num1);
 #else
 	sprintf( s, "%08u", n );
-	s[9] = s[7];
-	s[8] = s[6];
-	s[7] = '-';
-	s[6] = s[5];
-	s[5] = s[4];
-	s[4] = '-';
-#endif
-	return 10;
-}
-
-
-int itotimestr( char *s, unsigned int n )
-{
-	if( n <= 0 || n >= 1000000 ) {
-		memcpy(s, "00:00:00", 8);
-		return 8;
-	}
-	
-#if defined FAST_PRINTING
-	uint32_t num2, div;
-	
-	num2 = n / 1000;
-	n -= num2 * 1000;
-	
-	s[0] = '0' + (char)(div = (num2*5243)>>19);
-	num2 -= div*100;
-	
-	s[1] = '0' + (char)(div = (num2*6554)>>16);
-	num2 -= div*10;
-	
-	s[2] = ':';
-	
-	s[3] = '0' + (char)(num2);
-	s[4] = '0' + (char)(div = (n*5243)>>19);
-	n -= div*100;
-	
-	s[5] = ':';
-	
-	s[6] = '0' + (char)(div = (n*6554)>>16);
-	n -= div*10;
-	s[7] = '0' + (char)(n);
-#else
-	sprintf( s, "%06u", n );
-	s[7] = s[5];
-	s[6] = s[4];
-	s[5] = ':';
-	s[4] = s[3];
-	s[3] = s[2];
-	s[2] = ':';
 #endif
 	return 8;
 }
-
-
-

@@ -1042,7 +1042,6 @@ int FDat::record_to_string( const char *record, char *s ) const
 	READ_FIELD( openint, D_OPI );
 	
 	PRINT_FIELD( itodatestr, D_DAT, date );
-	PRINT_FIELD( itotimestr, D_TIM, time );
 	PRINT_FIELD( ftoa, D_OPE, open );
 	PRINT_FIELD( ftoa, D_HIG, high );
 	PRINT_FIELD( ftoa, D_LOW, low );
