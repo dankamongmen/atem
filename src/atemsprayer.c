@@ -14,7 +14,7 @@ usage(const char **argv){
 // FIXME ought ensure that we don't hit a symbol twice, since we'll rewrite the
 // file each time there's a gap :/
 int main(int argc,const char **argv){
-	char buf[1024],ptoken[PATH_MAX],curfile[PATH_MAX];
+	char buf[BUFSIZ],ptoken[PATH_MAX],curfile[PATH_MAX];
 	FILE *curout = NULL;
 
 	if(argc != 2){
