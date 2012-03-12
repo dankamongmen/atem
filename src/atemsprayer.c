@@ -57,6 +57,10 @@ int main(int argc,const char **argv){
 				fprintf(stderr,"Error writing to %s: %s\n",curfile,strerror(errno));
 				return EXIT_FAILURE;
 			}
+			if(fprintf(curout,"%s",buf) <= 0){
+				fprintf(stderr,"Error writing to %s: %s\n",curfile,strerror(errno));
+				return EXIT_FAILURE;
+			}
 		}
 	}
 	if(ferror(stdin)){
