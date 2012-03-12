@@ -35,7 +35,7 @@ int main(int argc,const char **argv){
 			return EXIT_FAILURE;
 		}
 		if(strncmp(ptoken,buf,delim - buf) == 0 && ptoken[delim - buf] == '\0'){
-			if(fprintf(curout,"%s\n",buf) <= 0){
+			if(fprintf(curout,"%s",buf) <= 0){
 				fprintf(stderr,"Error writing to %s: %s\n",curfile,strerror(errno));
 				return EXIT_FAILURE;
 			}
